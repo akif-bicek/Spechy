@@ -10,7 +10,7 @@ class package_controllers{
     public function delete($params){
         $id = $params["package_id"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($id)){
+        if (other_helpers::isNotNull($id)){
             global $db;
             $delete = $db->delete("package", $id);
             if ($delete !== false){
@@ -30,7 +30,7 @@ class package_controllers{
         $price = $params["price"] ?? null;
         $company_id = $params["company_id"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($name, $price, $company_id)){
+        if (other_helpers::isNotNull($name, $price, $company_id)){
             $package = $db->read("select * from package where name = ?", $name);
             if ($package === false){
                 $packageId = $db->create(
@@ -59,7 +59,7 @@ class package_controllers{
         $customer_id = $params["customer_id"] ?? null;
         $package_id = $params["package_id"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($customer_id, $package_id)){
+        if (other_helpers::isNotNull($customer_id, $package_id)){
             $customer = $db->read("select * from customers where id = ?", $customer_id);
             $package = $db->read("select * from package where id = ?", $package_id);
             if(($customer !== false) and ($package !== false)){
@@ -108,7 +108,7 @@ class package_controllers{
         $customer_id = $params["customer_id"] ?? null;
         $package_id = $params["package_id"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($customer_id, $package_id)){
+        if (other_helpers::isNotNull($customer_id, $package_id)){
             $customer = $db->read("select * from customers where id = ?", $customer_id);
             $package = $db->read("select * from package where id = ?", $package_id);
             if(($customer !== false) and ($package !== false)){
@@ -148,7 +148,7 @@ class package_controllers{
     public function customerPackage($params){
         global $db;
         $customer_id = $params["customer_id"] ?? null;
-        if (other_helpers::isNull($customer_id)){
+        if (other_helpers::isNotNull($customer_id)){
             $packages = $db->read("select * from customer_package where customer_id = ?", $customer_id);
             if ($packages !== false){
                 $packages["status"] = 200;
@@ -163,7 +163,7 @@ class package_controllers{
     public function companyPackage($params){
         global $db;
         $company_id = $params["company_id"] ?? null;
-        if (other_helpers::isNull($company_id)){
+        if (other_helpers::isNotNull($company_id)){
             $packages = $db->read("select * from package where company_id = ?", $company_id);
             if ($packages !== false){
                 $packages["status"] = 200;
@@ -179,8 +179,8 @@ class package_controllers{
         global $db;
         $customer_id = $params["customer_id"] ?? null;
         $package_id = $params["package_id"] ?? null;
-        if (!other_helpers::isNull($customer_id, $package_id)){
-            if (other_helpers::isNull($customer_id)){
+        if (!other_helpers::isNotNull($customer_id, $package_id)){
+            if (other_helpers::isNotNull($customer_id)){
                 $packages = $db->read("select * from customer_package where customer_id = ?", $customer_id);
                 if ($packages !== false){
                     $allPayments = array();
@@ -196,7 +196,7 @@ class package_controllers{
                 }
             }
         }
-        if (other_helpers::isNull($customer_id, $package_id)){
+        if (other_helpers::isNotNull($customer_id, $package_id)){
             $package = $db->read("select * from customer_package where customer_id = ? and package_id = ?", $customer_id, $package_id);
             if ($package !== false){
                 $payments = $db->read("select * from customer_payment where customer_package_id = ?", $package[0]["id"]);

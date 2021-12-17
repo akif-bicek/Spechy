@@ -10,7 +10,7 @@ class company_controllers{
     public function delete($params){
         $id = $params["company_id"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($id)){
+        if (other_helpers::isNotNull($id)){
             global $db;
             $delete = $db->delete("company", $id);
             if ($delete !== false){
@@ -32,7 +32,7 @@ class company_controllers{
         $tax_circle = $params["tax_circle"] ?? null;
         $tax_no = $params["tax_no"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($name, $tax_circle, $email, $tax_no, $phone)){
+        if (other_helpers::isNotNull($name, $tax_circle, $email, $tax_no, $phone)){
             $company = $db->read("select * from company where email = ?", $email);
             if ($company === false){
                 $companyId = $db->create(

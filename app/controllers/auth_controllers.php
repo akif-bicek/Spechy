@@ -10,7 +10,7 @@ class auth_controllers{
     public function delete($params){
         $id = $params["customer_id"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($id)){
+        if (other_helpers::isNotNull($id)){
             global $db;
             $delete = $db->delete("customers", $id);
             if ($delete !== false){
@@ -32,7 +32,7 @@ class auth_controllers{
         $password = $params["password"] ?? null;
         $phone = $params["phone"] ?? null;
         $response = array("status" => 400, "message" => "please fill in all the required fields");
-        if (other_helpers::isNull($name, $lastname, $email, $password, $phone)){
+        if (other_helpers::isNotNull($name, $lastname, $email, $password, $phone)){
             $member = $db->read("select * from customers where email = ?", $email);
             if ($member === false){
                 $customerId = $db->create(
