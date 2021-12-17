@@ -187,7 +187,7 @@ class package_controllers{
                     $total = 0;
                     foreach ($packages as $package){
                         $payments = $db->read("select * from customer_payment where customer_package_id = ?", $package["id"]);
-                        $allPayments = array_merge($allPayments, $payments);
+                        $allPayments[] = $payments;
                         $total += (floatval($payments[0]["price"]) * 12);
                     }
                     echo $total;
@@ -203,7 +203,7 @@ class package_controllers{
                 $allPayments = array();
                 $total = 0;
                 foreach ($payments as $payment){
-                    $allPayments = array_merge($allPayments, array($payment));
+                    $allPayments[] = array($payment);
                     $total += (double)$payment["price"];
                 }
                 $payments["status"] = 200;
