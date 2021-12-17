@@ -76,7 +76,7 @@ class other_helpers{
         self::setHeader($array["status"]);
         echo json_encode($array);
     }
-    public static function isNull(){
+    public static function isNotNull(){
         $args = func_get_args();
         $return = true;
         foreach ($args as $arg){
